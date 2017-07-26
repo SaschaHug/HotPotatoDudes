@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
 
 /*  ​
  Login
@@ -12,9 +14,11 @@ app.put('/api/V1/login', function (req, res) {
       res.status(400).send('username required');
      return;}
 
-     if(!req.body.password){
-         res.status(400).send('password required');
+  if(!req.body.password){
+       res.status(400).send('password required');
     return;}
+
+    res.status(200).send('Authorization ok!');
 });
 
 
