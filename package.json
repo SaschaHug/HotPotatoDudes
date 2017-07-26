@@ -1,0 +1,24 @@
+{
+  "name": "hotpotatodudes",
+  "version": "1.0.0",
+  "description": "TINF15B3 Webengineering",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaschaHug/HotPotatoDudes.git"
+  },
+  "keywords": [
+    "http",
+    "api",
+    "webengineering"
+  ],
+  "author": "Lamm, Hug, Saupp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SaschaHug/HotPotatoDudes/issues"
+  },
+  "homepage": "https://github.com/SaschaHug/HotPotatoDudes#readme"
+}
