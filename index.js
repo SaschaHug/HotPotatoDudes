@@ -1,8 +1,12 @@
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
 
+var bodyParser = require('body-parser');
 app.use(bodyParser.json());
+
+var User = require('./src/data/user')
+ 
+var mongoose = require
 
 /*  ​
  Login
@@ -11,15 +15,25 @@ app.use(bodyParser.json());
 ​ ​*/
 app.put('/api/V1/login', function (req, res) {
  if(!req.body.username){
-      res.status(400).send('username required');
-     return;}
-
-  if(!req.body.password){
-       res.status(400).send('password required');
+    res.status(400).send('username required');
     return;}
 
-    res.status(200).send('Authorization ok!');
+  if(!req.body.password){
+    res.status(400).send('password required');
+    return;}
+	
+	User.findOne({username: req.body.username}, function(err, user){
+		user.comparePassword(req.body.password, function(err, isMatch){
+			if (err) throw err;
+			if(!isMatch){
+				res.status(401).send('Invalid Password');
+			} else {
+				res.status(200).json({});
+			}
+  });
+ });
 });
+	
 
 
 /*  ​
