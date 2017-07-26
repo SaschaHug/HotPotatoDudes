@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/SaschaHug/HotPotatoDudes/issues"
   },
-  "homepage": "https://github.com/SaschaHug/HotPotatoDudes#readme"
+  "homepage": "https://github.com/SaschaHug/HotPotatoDudes#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
 }
