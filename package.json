@@ -23,6 +23,7 @@
   "homepage": "https://github.com/SaschaHug/HotPotatoDudes#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1"
   }
 }

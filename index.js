@@ -1,12 +1,11 @@
 var express = require('express');
 var app = express();
-
+var bodyParser = require('body-parser');
+var jwt = require('jsonwebtoken');
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 var User = require('./src/data/user')
- 
-var mongoose = require
 
 /*  ​
  Login
@@ -21,17 +20,11 @@ app.put('/api/V1/login', function (req, res) {
   if(!req.body.password){
     res.status(400).send('password required');
     return;}
-	
-	User.findOne({username: req.body.username}, function(err, user){
-		user.comparePassword(req.body.password, function(err, isMatch){
-			if (err) throw err;
-			if(!isMatch){
-				res.status(401).send('Invalid Password');
-			} else {
-				res.status(200).json({});
-			}
-  });
- });
+
+    var token = jwt.sign('src/data/user.json', 'megaSecret', {
+    });
+    res.status(200).json({'token': token});
+
 });
 	
 
@@ -54,6 +47,7 @@ app.put('/api/V1/passwordRecovery', function (req, res) {
  als Attribut ​hidden​ als ​false​ haben
 ​ ​*/
 app.get('/api/V1/blog', function (req, res) {
+
 });
 
 
