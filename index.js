@@ -3,15 +3,18 @@ var app = express();
 var bodyParser = require('body-parser');
 var jwt = require('jsonwebtoken');
 var bodyParser = require('body-parser');
+/*var fs = require('fs');*/
 app.use(bodyParser.json());
 
 var User = require('./src/data/user')
-
+var Blog = require('./src/data/blog');
 /*  ​
  Login
  ​Input​: Es wird ein Passwort und Username gesendet
  Output​: Ein JSON-WebToken
 ​ ​*/
+
+
 app.put('/api/V1/login', function (req, res) {
  if(!req.body.username){
     res.status(400).send('username required');
@@ -23,10 +26,10 @@ app.put('/api/V1/login', function (req, res) {
 
     var token = jwt.sign('src/data/user.json', 'megaSecret', {
     });
-    res.status(200).json({'token': token});
-
-});
 	
+    res.status(200).json({'token': token});
+});
+
 
 
 /*  ​
@@ -47,9 +50,8 @@ app.put('/api/V1/passwordRecovery', function (req, res) {
  als Attribut ​hidden​ als ​false​ haben
 ​ ​*/
 app.get('/api/V1/blog', function (req, res) {
-
+	 res.status(200).json(Blog);
 });
-
 
 
 
