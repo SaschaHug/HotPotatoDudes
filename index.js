@@ -6,14 +6,35 @@ var bodyParser = require('body-parser');
 /*var fs = require('fs');*/
 app.use(bodyParser.json());
 
-var User = require('./src/data/user')
-var Blog = require('./src/data/blog');
+
+var User = require('./src/data/user');
+/*var Blog = require('./src/data/blog');*/
+var Blog = require('./routes/blog');
+
+/*DAS IST DIE NEUE ROUTE FÜR DEN BLOG !!!!!
+ TODO 
+ 1. Route für USER ---> für login Funktionalität
+ nach dem Motto 
+ 2. im Ordner routes eine datei user.js anlegen:
+ 
+var express = require('express');
+var router = express.Router();
+var userController = require('../controller/user');
+
+router.put('/login', userController.login);
+router.put('/passwordRecovery', userController.changePassword);
+
+module.exports = router;
+ app.use('/api/V1', User);*/ 
+
+app.use('/api/V1/blog',Blog);
+
+
 /*  ​
  Login
  ​Input​: Es wird ein Passwort und Username gesendet
  Output​: Ein JSON-WebToken
 ​ ​*/
-
 
 app.put('/api/V1/login', function (req, res) {
  if(!req.body.username){
@@ -49,9 +70,9 @@ app.put('/api/V1/passwordRecovery', function (req, res) {
  Wenn die Route ohne JWT aufgerufen wird, sollen nur die Blogartikel übertragen werden, die
  als Attribut ​hidden​ als ​false​ haben
 ​ ​*/
-app.get('/api/V1/blog', function (req, res) {
+/*app.get('/api/V1/blog', function (req, res) {
 	 res.status(200).json(Blog);
-});
+});*/
 
 
 
