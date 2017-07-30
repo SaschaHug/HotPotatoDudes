@@ -9,8 +9,9 @@ exports.login = function(req, res) {
 };
 
 
-//exports.passwordRecovery = function(req, res) {
-  function passwordRecovery(req, res){
+exports.passwordRecovery = function (req, res) {
+  console.log('startet change password');
+  //function passwordRecovery(req, res){
   if (!res.locals.authenticated) {
     return res.status(401).send({
       //message: res.message
@@ -48,7 +49,7 @@ else {
 
 
 }
-}
+};
 
 
 function authenticate(User, res, req){
@@ -61,12 +62,13 @@ function authenticate(User, res, req){
 }
 
 
-exports.checkIfAuthorised = function (req, res) {
+exports.checkIfAuthorised = function (req, res, next) {
   let encodedToken = req.body.token;
   let decodedToken = verify(encodedToken);
   if (decodedToken.password === User.password) {
     res.locals.authenticated = true;
-    passwordRecovery(req, res);
+    next();
+    //passwordRecovery(req, res);
   } else {
     res.status(401).send('Not Authorized!');
   }
