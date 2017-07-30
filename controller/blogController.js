@@ -50,15 +50,22 @@ exports.show = function(req, res) {
 }
 
 exports.delete = function(req, res) {
-	if (!blog[req.params.id]) {
-	  res.status(500).json({error: err});
+    for (var position = 0, laenge = blog.length; position < laenge; position++){
+        if(blog[position].index == req.params.id){
+            break;
+        }
+    }
+
+	if (!blog[position]) {
+	  res.status(404).json({error: err});
+	  return;
     } /*Wenn die Route ohne JWT aufgerufen wird und der Artikel als hidden-value allerdings ein true
 		beinhaltet, soll ein 401 Statuscode übersendet werden.*/
 	if(!res.locals.authenticated && blog[req.params.id].hidden) {
     res.status(401).send();
 		return;
 	}
-
+    blog.splice(position, 1);
 
     fs.writeFile('./src/data/blog.json', JSON.stringify(blog), 'utf-8', (err) => {
     if (err) {
