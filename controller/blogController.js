@@ -74,13 +74,41 @@ exports.delete = function(req, res) {
 
 exports.edit = function (req, res, next) {
    if (res.locals.authenticated) {
-     res.status(200).send(
-       {
-       success: true,
-       message: 'Erfolgreich editiert!'
-       });
-   } else {
-     res.status(401).json({error: err});
-   }
+     if (!blog[req.params.id]) {
+       res.status(404).send();
+       return;
+     }
 
+     if (!res.locals.authenticated && blog[id].hidden) {
+       return res.status(401).send({
+       message: res.message
+    });
+    }
+
+    console.log(req.body);
+    console.log(req.body.title);
+    console.log(blog[req.params.id].title);
+
+
+     blog[req.params.id].title = req.body.title       || blog[req.params.id].title;
+     blog[req.params.id].picture = req.body.picture   || blog[req.params.id].picture;
+     blog[req.params.id].author = req.body.author     || blog[req.params.id].author;
+     blog[req.params.id].about = req.body.about       || blog[req.params.id].about;
+     blog[req.params.id].released = req.body.released || blog[req.params.id].released;
+     blog[req.params.id].hidden = req.body.hidden     || blog[req.params.id].hidden;
+     blog[req.params.id].tags = req.body.tags         || blog[req.params.id].tags;
+
+
+     console.log(req.body.title);
+     console.log(blog[req.params.id].title);
+
+     fs.writeFile('./src/data/blog.json', JSON.stringify(blog), 'utf-8', (err) => {
+       if (err) {
+         res.status(500).json({error: err});
+       } else {
+         res.status(200).json(blog[req.params.id]);
+   }
+ });
+
+}
 }

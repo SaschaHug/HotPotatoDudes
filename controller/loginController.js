@@ -10,11 +10,10 @@ exports.login = function(req, res) {
 
 
 exports.passwordRecovery = function (req, res) {
-  console.log('startet change password');
+  console.log('started change password');
   //function passwordRecovery(req, res){
   if (!res.locals.authenticated) {
     return res.status(401).send({
-      //message: res.message
       message: 'not authenticated'
     });
   }
