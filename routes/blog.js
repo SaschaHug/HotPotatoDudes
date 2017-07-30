@@ -23,6 +23,6 @@ router.route('/:id([0-9a-z]+)')
   /* Blogeintrag editieren*/
   .put(loginController.checkIfAuthorised, blogController.edit)
 
-
+router.post('/',loginController.checkIfAuthorised, blogController.post);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 var blog = require('../src/data/blog.json');
 var fs = require('fs');
+var objectid = require('objectid');
 
 /*BLOG Funktionen
 TODO:
@@ -71,7 +72,38 @@ exports.delete = function(req, res) {
   });
 }
 
+exports.post = function (req,res){
 
+    let newId = 1;
+    while (blog.filter((element) => {
+        return element.index === newId
+    }).length > 0) {
+        newId += 1;
+    }
+    let newPost = {
+        _id: objectid(),
+        index: newId,
+        title: req.body.title || "",
+        picture: req.body.picture || "",
+        author: req.body.author || "",
+        about: req.body.about || "",
+        released: req.body.released || "",
+        hidden: req.body.hidden || false,
+        tags: req.body.tags || []
+    };
+    blog.push(newPost);
+
+    fs.writeFile('./src/data/blog.json', JSON.stringify(blog), 'utf-8', (err) => {
+        if (err) {
+            res.status(500).json({error: err});
+        } else {
+            res.status(201).json(blog[newId]);
+}
+});
+
+
+
+}
 exports.edit = function (req, res, next) {
    if (res.locals.authenticated) {
      if (!blog[req.params.id]) {
