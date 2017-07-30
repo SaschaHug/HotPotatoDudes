@@ -21,8 +21,9 @@ Das muss überprüft werden.*/
 
 
 exports.list = function(req, res) {
-	/* AUTHENTIFIZIERUNG Checken*/
-  if (res.locals.authenticated) {
+    console.log(res.locals.authenticated);/* AUTHENTIFIZIERUNG Checken*/
+  if (res.locals.authenticated){
+      console.log("----");
     res.json(blog);
 	/* Alle Blogartikel als JSON-Array.
 	   Wenn die Route ohne JWT aufgerufen wird, sollen nur die Blogartikel übertragen werden, die

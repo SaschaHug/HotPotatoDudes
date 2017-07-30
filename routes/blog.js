@@ -12,17 +12,17 @@ var loginController = require('../controller/loginController.js');
 
 
 /* list in blogController definiert*/
-router.get('/', blogController.list);
+router.get('/',loginController.checkIfAuthorised, blogController.list);
 
 /*Ein spezifischer Blogartikel GET /api/V1/blog/:id*/
 router.route('/:id([0-9]+)')
-	/* BLOG anzeigen */
-  .get(blogController.show)
-    /* BLOGEINTRAG löschen*/
+	/* Blog anzeigen */
+  .get(loginController.checkIfAuthorised, blogController.show)
+    /* Bloeintrag löschen*/
   .delete(blogController.delete)
   /* Blogeintrag editieren*/
   .put(loginController.checkIfAuthorised, blogController.edit)
-
+/*Blogeintrag erstellen*/
 router.post('/',loginController.checkIfAuthorised, blogController.post);
 
 module.exports = router;
