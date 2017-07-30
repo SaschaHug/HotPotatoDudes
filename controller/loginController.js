@@ -63,8 +63,11 @@ function authenticate(User, res, req){
 
 
 exports.checkIfAuthorised = function (req, res, next) {
-  let encodedToken = req.body.token;
-  let decodedToken = verify(encodedToken);
+  var encodedToken = req.headers["token"];
+  if(!req.headers["token"]){
+    encodedToken = req.body.token;
+  }
+    decodedToken = verify(encodedToken);
   if (decodedToken.password === User.password) {
     res.locals.authenticated = true;
     next();

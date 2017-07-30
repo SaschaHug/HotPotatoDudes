@@ -73,5 +73,14 @@ exports.delete = function(req, res) {
 
 
 exports.edit = function (req, res, next) {
-  console.log('Edit Blog Post...');
+   if (res.locals.authenticated) {
+     res.status(200).send(
+       {
+       success: true,
+       message: 'Erfolgreich editiert!'
+       });
+   } else {
+     res.status(401).json({error: err});
+   }
+
 }
