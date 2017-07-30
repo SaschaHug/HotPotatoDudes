@@ -19,10 +19,10 @@ router.route('/:id([0-9]+)')
 	/* Blog anzeigen */
   .get(loginController.checkIfAuthorised, blogController.show)
     /* Bloeintrag löschen*/
-  .delete(blogController.delete)
-  /* Blogeintrag editieren*/
+  .delete(loginController.checkIfAuthorised, blogController.delete)
+    /* Blogeintrag editieren*/
   .put(loginController.checkIfAuthorised, blogController.edit)
-/*Blogeintrag erstellen*/
+    /*Blogeintrag erstellen*/
 router.post('/',loginController.checkIfAuthorised, blogController.post);
 
 module.exports = router;
