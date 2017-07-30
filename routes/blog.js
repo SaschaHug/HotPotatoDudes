@@ -13,11 +13,13 @@ var blogController = require('../controller/blogController.js');
 router.get('/', blogController.list);
 
 /*Ein spezifischer Blogartikel GET /api/V1/blog/:id*/
-router.route('/:id([0-9]+)')  
+router.route('/:id([0-9a-z]+)')
 	/* BLOG anzeigen */
   .get(blogController.show)
     /* BLOGEINTRAG löschen*/
   .delete(blogController.delete)
+  /* Blogeintrag editieren*/
+  .put(blogController.edit)
 
 
 module.exports = router;

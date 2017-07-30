@@ -70,3 +70,8 @@ exports.delete = function(req, res) {
     }
   });
 }
+
+
+exports.edit = function (req, res, next) {
+  console.log('Edit Blog Post...');
+}
