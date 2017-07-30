@@ -21,9 +21,8 @@ Das muss überprüft werden.*/
 
 
 exports.list = function(req, res) {
-    console.log(res.locals.authenticated);/* AUTHENTIFIZIERUNG Checken*/
+    /* Authentifizierung prüfen*/
   if (res.locals.authenticated){
-      console.log("----");
     res.json(blog);
 	/* Alle Blogartikel als JSON-Array.
 	   Wenn die Route ohne JWT aufgerufen wird, sollen nur die Blogartikel übertragen werden, die
@@ -127,11 +126,6 @@ exports.edit = function (req, res, next) {
     });
     }
 
-    console.log(req.body);
-    console.log(req.body.title);
-    console.log(blog[req.params.id].title);
-
-
      blog[req.params.id].title = req.body.title       || blog[req.params.id].title;
      blog[req.params.id].picture = req.body.picture   || blog[req.params.id].picture;
      blog[req.params.id].author = req.body.author     || blog[req.params.id].author;
@@ -139,10 +133,6 @@ exports.edit = function (req, res, next) {
      blog[req.params.id].released = req.body.released || blog[req.params.id].released;
      blog[req.params.id].hidden = req.body.hidden     || blog[req.params.id].hidden;
      blog[req.params.id].tags = req.body.tags         || blog[req.params.id].tags;
-
-
-     console.log(req.body.title);
-     console.log(blog[req.params.id].title);
 
      fs.writeFile('./src/data/blog.json', JSON.stringify(blog), 'utf-8', (err) => {
        if (err) {
