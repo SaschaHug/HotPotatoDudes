@@ -2,7 +2,7 @@ var blog = require('../src/data/blog.json');
 var fs = require('fs');
 
 /*BLOG Funktionen
-TODO: 
+TODO:
 
 1. Editieren eines Blogartikels PUT /api/V1/blog/:id
 Input : JWT - neue Daten (Als Key Value Pair im Request Body)
@@ -25,7 +25,7 @@ exports.list = function(req, res) {
     res.json(blog);
 	/* Alle Blogartikel als JSON-Array.
 	   Wenn die Route ohne JWT aufgerufen wird, sollen nur die Blogartikel übertragen werden, die
-	   als Attribut hidden als false haben */ 
+	   als Attribut hidden als false haben */
   } else {
     res.json(blog.filter((element) => {
       return !element.hidden;
@@ -56,15 +56,17 @@ exports.delete = function(req, res) {
     res.status(401).send();
 		return;
 	}
- 
- 
+
+
     fs.writeFile('./src/data/blog.json', JSON.stringify(blog), 'utf-8', (err) => {
     if (err) {
       res.status(500).json({error: err});
     } else {
-      res.status(200).send();
-	        success: true ,
-            message: 'Erfolgreich gelöscht!'
+      res.status(200).send(
+        {
+        success: true,
+        message: 'Erfolgreich gelöscht!'
+        });
     }
+  });
 }
-
