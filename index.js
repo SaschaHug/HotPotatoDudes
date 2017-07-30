@@ -2,32 +2,16 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var jwt = require('jsonwebtoken');
-var bodyParser = require('body-parser');
-/*var fs = require('fs');*/
 app.use(bodyParser.json());
 
 
-var User = require('./src/data/user');
-/*var Blog = require('./src/data/blog');*/
-var Blog = require('./routes/blog');
+const PORT = 3000;
 
-/*DAS IST DIE NEUE ROUTE FÜR DEN BLOG !!!!!
- TODO 
- 1. Route für USER ---> für login Funktionalität
- nach dem Motto 
- 2. im Ordner routes eine datei user.js anlegen:
- 
-var express = require('express');
-var router = express.Router();
-var userController = require('../controller/user');
+var Login = require('./routes/login.js');
+var Blog = require('./routes/blog.js');
 
-router.put('/login', userController.login);
-router.put('/passwordRecovery', userController.changePassword);
-
-module.exports = router;
- app.use('/api/V1', User);*/ 
-
-app.use('/api/V1/blog',Blog);
+app.use('/api/V1/', Login);
+app.use('/api/V1/blog', Blog);
 
 
 /*  ​
@@ -36,6 +20,7 @@ app.use('/api/V1/blog',Blog);
  Output​: Ein JSON-WebToken
 ​ ​*/
 
+/*
 app.put('/api/V1/login', function (req, res) {
  if(!req.body.username){
     res.status(400).send('username required');
@@ -47,7 +32,7 @@ app.put('/api/V1/login', function (req, res) {
 
     var token = jwt.sign('src/data/user.json', 'megaSecret', {
     });
-	
+
     res.status(200).json({'token': token});
 });
 
@@ -57,7 +42,7 @@ app.put('/api/V1/login', function (req, res) {
  Passwort ändern
 ​ ​Input​: Ein JSON-WebToken, neues Passwort, altes Passwort
  Output: ​Success oder Fail Meldung und ein neuer JSON-WebToken
-​ ​*/
+​ ​
 app.put('/api/V1/passwordRecovery', function (req, res) {
 });
 
@@ -82,7 +67,7 @@ app.put('/api/V1/passwordRecovery', function (req, res) {
  Output​: Blogartikel mit der spezifischen Id
  Wenn die Route ohne JWT aufgerufen wird und der Artikel als ​hidden-value ​allerdings ein ​true
  beinhaltet, soll ein 401 Statuscode übersendet werden.
-​ ​*/
+​ ​
 app.get('/api/V1/blog:id', function (req, res) {
 });
 
@@ -94,7 +79,7 @@ app.get('/api/V1/blog:id', function (req, res) {
  Output​: 200- erfolgreich gelöscht
  Wenn die Route ohne JWT aufgerufen wird und der Artikel als ​hidden-value ​allerdings ein ​true
  beinhaltet, soll ein 401 Statuscode übersendet werden.
-​ ​*/
+​ ​
 app.delete('/api/V1/blog:id', function (req, res) {
 });
 
@@ -108,7 +93,7 @@ app.delete('/api/V1/blog:id', function (req, res) {
  zurückgegeben werden.
  Wenn die Route ohne JWT aufgerufen wird und der Artikel als ​hidden-value ​allerdings ein ​true
  beinhaltet, soll ein 401 Statuscode übersendet werden.
-​ ​*/
+​ ​
 app.put('/api/V1/blog:id', function (req, res) {
 });
 
@@ -121,19 +106,19 @@ app.put('/api/V1/blog:id', function (req, res) {
  Ein Blog Artikel kann nur angelegt werden, wenn der User einen JWT übergeben hat.
  Hierbei soll der neue Blog Artikel exakt dieselben Attribute haben wie die vorigen.
  Das muss überprüft werden.
-​ ​*/
+​ ​
 app.put('/api/V1/blog:id', function (req, res) {
 });
 
 
-/* Test */
+/* Test
 app.get('/', function (req, res) {
   //res.send('Hello World!');
   res.send(200);
 });
-
+*/
 
 /* Server starten */
-app.listen(3000, function () {
+app.listen(PORT, function () {
   console.log('Server running at: 127.0.0.1:3000!');
 });
