@@ -15,7 +15,7 @@ var loginController = require('../controller/loginController.js');
 router.get('/', blogController.list);
 
 /*Ein spezifischer Blogartikel GET /api/V1/blog/:id*/
-router.route('/:id([0-9a-z]+)')
+router.route('/:id([0-9]+)')
 	/* BLOG anzeigen */
   .get(blogController.show)
     /* BLOGEINTRAG löschen*/
