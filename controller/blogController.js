@@ -105,11 +105,13 @@ exports.post = function (req,res){
         if (err) {
             res.status(500).json({error: err});
         } else {
-            res.status(201).json(blog[newId]);
+            res.status(201).send({
+            'message': 'Erfolgreich angelegt',
+            'data': blog[req.params.id]
+        });
 }
+
 });
-
-
 
 }
 exports.edit = function (req, res, next) {
@@ -146,9 +148,13 @@ exports.edit = function (req, res, next) {
        if (err) {
          res.status(500).json({error: err});
        } else {
-         res.status(200).json(blog[req.params.id]);
-   }
- });
+             res.status(200).send({
+             'message': 'Erfolgreich editiert',
+             'data': blog[req.params.id]
+             });
+        }
 
-}
+    });
+
+    }
 }
