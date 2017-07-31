@@ -3,6 +3,7 @@ var fs = require('fs');
 var objectid = require('objectid');
 
 exports.list = function(req, res) {
+  /* Authentifizierung prüfen*/
   if (res.locals.authenticated){
     res.json(blog);
 	/* Alle Blogartikel als JSON-Array.
@@ -30,15 +31,22 @@ exports.show = function(req, res) {
 }
 
 exports.delete = function(req, res) {
-	if (!blog[req.params.id]) {
-	  res.status(500).json({error: err});
+    for (var position = 0, laenge = blog.length; position < laenge; position++){
+        if(blog[position].index == req.params.id){
+            break;
+        }
+    }
+
+	if (!blog[position]) {
+	  res.status(404).json({error: err});
+	  return;
     } /*Wenn die Route ohne JWT aufgerufen wird und der Artikel als hidden-value allerdings ein true
 		beinhaltet, soll ein 401 Statuscode übersendet werden.*/
 	if(!res.locals.authenticated && blog[req.params.id].hidden) {
     res.status(401).send();
 		return;
 	}
-
+    blog.splice(position, 1);
 
     fs.writeFile('./src/data/blog.json', JSON.stringify(blog), 'utf-8', (err) => {
     if (err) {
@@ -78,11 +86,13 @@ exports.post = function (req,res){
         if (err) {
             res.status(500).json({error: err});
         } else {
-            res.status(201).json(blog[newId]);
+            res.status(201).send({
+            'message': 'Erfolgreich angelegt',
+            'data': blog[req.params.id]
+        });
 }
+
 });
-
-
 
 }
 exports.edit = function (req, res, next) {
@@ -98,8 +108,6 @@ exports.edit = function (req, res, next) {
     });
     }
 
-
-
      blog[req.params.id].title = req.body.title       || blog[req.params.id].title;
      blog[req.params.id].picture = req.body.picture   || blog[req.params.id].picture;
      blog[req.params.id].author = req.body.author     || blog[req.params.id].author;
@@ -112,9 +120,13 @@ exports.edit = function (req, res, next) {
        if (err) {
          res.status(500).json({error: err});
        } else {
-         res.status(200).json(blog[req.params.id]);
-   }
- });
+             res.status(200).send({
+             'message': 'Erfolgreich editiert',
+             'data': blog[req.params.id]
+             });
+        }
 
-}
+    });
+
+    }
 }

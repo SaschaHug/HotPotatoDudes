@@ -9,7 +9,8 @@ exports.login = function(req, res) {
 exports.passwordRecovery = function (req, res) {
   if (!res.locals.authenticated) {
     return res.status(401).send({
-      message: 'not authenticated'
+        status:'not successful',
+        message: 'not authenticated'
     });
   }
 

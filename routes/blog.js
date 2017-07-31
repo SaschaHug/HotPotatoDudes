@@ -14,7 +14,7 @@ router.route('/:id([0-9]+)')
   .get(loginController.checkIfAuthorised, blogController.show)
 
   /* DELETE Blogartikel */
-  .delete(blogController.delete)
+  .delete(loginController.checkIfAuthorised, blogController.delete)
 
   /* PUT Blogartikel */
   .put(loginController.checkIfAuthorised, blogController.edit)
