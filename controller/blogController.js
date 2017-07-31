@@ -2,28 +2,8 @@ var blog = require('../src/data/blog.json');
 var fs = require('fs');
 var objectid = require('objectid');
 
-/*BLOG Funktionen
-TODO:
-
-1. Editieren eines Blogartikels PUT /api/V1/blog/:id
-Input : JWT - neue Daten (Als Key Value Pair im Request Body)
-Output : 200 - erfolgreich geupdatet - Im Response Body soll der Artikel nochmal als Objekt
-zurückgegeben werden.
-Wenn die Route ohne JWT aufgerufen wird und der Artikel als hidden-value allerdings ein true
-beinhaltet, soll ein 401 Statuscode übersendet werden.
-
-2. Anlegen eines Blogartikels POST /api/V1/blog
-Input : JWT
-Output : 201- erfolgreich angelegt und eine neue ID des Artikels.
-Ein Blog Artikel kann nur angelegt werden, wenn der User einen JWT übergeben hat.
-Hierbei soll der neue Blog Artikel exakt dieselben Attribute haben wie die vorigen.
-Das muss überprüft werden.*/
-
-
 exports.list = function(req, res) {
-    console.log(res.locals.authenticated);/* AUTHENTIFIZIERUNG Checken*/
   if (res.locals.authenticated){
-      console.log("----");
     res.json(blog);
 	/* Alle Blogartikel als JSON-Array.
 	   Wenn die Route ohne JWT aufgerufen wird, sollen nur die Blogartikel übertragen werden, die
@@ -118,9 +98,6 @@ exports.edit = function (req, res, next) {
     });
     }
 
-    console.log(req.body);
-    console.log(req.body.title);
-    console.log(blog[req.params.id].title);
 
 
      blog[req.params.id].title = req.body.title       || blog[req.params.id].title;
@@ -130,10 +107,6 @@ exports.edit = function (req, res, next) {
      blog[req.params.id].released = req.body.released || blog[req.params.id].released;
      blog[req.params.id].hidden = req.body.hidden     || blog[req.params.id].hidden;
      blog[req.params.id].tags = req.body.tags         || blog[req.params.id].tags;
-
-
-     console.log(req.body.title);
-     console.log(blog[req.params.id].title);
 
      fs.writeFile('./src/data/blog.json', JSON.stringify(blog), 'utf-8', (err) => {
        if (err) {

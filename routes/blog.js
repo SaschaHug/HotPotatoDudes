@@ -1,28 +1,26 @@
 var express = require('express');
 
-/* BLOG Router */
 var router = express.Router();
 var blogController = require('../controller/blogController.js');
 var loginController = require('../controller/loginController.js');
 
 
-/* Alle Blogartikel als JSON-Array.
-   Wenn die Route ohne JWT aufgerufen wird, sollen nur die Blogartikel übertragen werden, die
-   als Attribut hidden als false haben */
-
-
-/* list in blogController definiert*/
+/* Alle Blogartikel */
 router.get('/',loginController.checkIfAuthorised, blogController.list);
 
-/*Ein spezifischer Blogartikel GET /api/V1/blog/:id*/
+/*Ein spezifischer Blogartikel anhand einer ID*/
 router.route('/:id([0-9]+)')
-	/* Blog anzeigen */
+  /* GET Blogartikel */
   .get(loginController.checkIfAuthorised, blogController.show)
-    /* Bloeintrag löschen*/
+
+  /* DELETE Blogartikel */
   .delete(blogController.delete)
-  /* Blogeintrag editieren*/
+
+  /* PUT Blogartikel */
   .put(loginController.checkIfAuthorised, blogController.edit)
-/*Blogeintrag erstellen*/
+
+
+/* POST Blogartikel */
 router.post('/',loginController.checkIfAuthorised, blogController.post);
 
 module.exports = router;

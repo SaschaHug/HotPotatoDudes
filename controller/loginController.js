@@ -1,17 +1,12 @@
-//var login = require('../src/data/user.json');
+let User = require('../src/data/user.json');
 var fs = require('fs');
 const jwt = require('jsonwebtoken');
-let User = require('../src/data/user.json');
-
 
 exports.login = function(req, res) {
   authenticate(User, res, req);
 };
 
-
 exports.passwordRecovery = function (req, res) {
-  console.log('started change password');
-  //function passwordRecovery(req, res){
   if (!res.locals.authenticated) {
     return res.status(401).send({
       message: 'not authenticated'
@@ -32,22 +27,13 @@ exports.passwordRecovery = function (req, res) {
               'status': 'password was successfully changed',
               'token': token
             });
-
-
-
-      //res.status(200).json({'token': token});
     }
   });
-
-
-}
-else {
-  res.status(401).send({
-    message: 'wrong password, please try again'
-  });
-
-
-}
+  } else {
+    res.status(401).send({
+      message: 'wrong password, please try again'
+      });
+    }
 };
 
 
@@ -62,15 +48,21 @@ function authenticate(User, res, req){
 
 
 exports.checkIfAuthorised = function (req, res, next) {
-  var encodedToken = req.headers["token"];
-  if(!req.headers["token"]){
-    encodedToken = req.body.token;
+  const headerToken = req.headers["authorization"];
+  const bodyToken = req.body.token;
+  var encodedToken ="";
+
+  if (typeof headerToken !== 'undefined'){
+    const splitToken = headerToken.split(" ");
+    encodedToken = splitToken[1];
+  } else if (typeof bodyToken !== 'undefined'){
+    encodedToken = bodyToken;
   }
+
     decodedToken = verify(encodedToken);
   if (decodedToken.password === User.password) {
     res.locals.authenticated = true;
     next();
-    //passwordRecovery(req, res);
   } else {
     res.status(401).send('Not Authorized!');
   }
